@@ -31,7 +31,7 @@ export function calculatePrice({
         unitPrice /= ethPriceUsd
     }
 
-    let totalPrice = unitPrice * quantity
+    const totalPrice = unitPrice * quantity
 
     // Base discount
     let discount = quantity >= 5 ? 0.1 : quantity >= 3 ? 0.05 : 0

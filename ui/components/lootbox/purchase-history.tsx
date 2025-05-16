@@ -11,6 +11,7 @@ import { formatDistanceToNow } from "date-fns"
 import NoDataMessage from "@/components/common/no-data-message"
 import { usePrivy } from "@privy-io/react-auth"
 import { getLootboxesByPrivyIdAction } from "@/app/actions/lootbox"
+import Link from "next/link"
 
 interface Purchase {
     id: string
@@ -240,7 +241,7 @@ export default function PurchaseHistory() {
                             description="You haven't made any lootbox purchases yet, or no results match your search."
                             action={
                                 <Button className="bg-cyan-500 hover:bg-cyan-600 text-white mt-4" asChild>
-                                    <a href="/">Buy Your First Lootbox</a>
+                                    <Link href="/">Buy Your First Lootbox</Link>
                                 </Button>
                             }
                         />
