@@ -1,0 +1,61 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Cursor Project Rules for Web3 & Next.js Frontend Development
+
+## General Practices
+- Always use TypeScript (`.tsx` for components, `.ts` for logic).
+- Ensure all React components are typed, including props and return types.
+- Use `use client` at the top of all client components that interact with the DOM or hooks.
+- Favor functional components and React hooks (`useState`, `useEffect`, `useCallback`, etc.).
+- Group code by feature/module instead of by type (e.g., group related components, hooks, and utils together).
+- Write clean and modular code and avoid overly complex code.
+- Avoid repeating code - use DRY principles and create helper functions.
+- Think thoroughly before proposing code changes.
+- For complex features, add comments and NEVER delete existing comments - unless they are obviously wrong or obsolete.
+- Avoid huge refactors at once - break it down into several smaller steps
+
+## Next.js
+- Use the App Router (app directory).
+- Use `shadcn/ui` components for UI and TailwindCSS for styling. Apply consistent utility-first classes.
+- All API routes belong in `app/api/` and should use `NextResponse` and `Request`.
+- When fetching data from smart contracts or Web3 providers, prefer using server components when possible.
+- Avoid using `getServerSideProps` or `getStaticProps` (deprecated in App Router).
+
+## Web3 Integration
+- Use `wagmi` and `viem` for wallet connection and blockchain interactions.
+- Use `ethers.js` only if needed for specific compatibility.
+- Contract ABIs should be imported from `out/` or `artifacts/` directories, not manually copied.
+- Use a `config.ts` file to store network, contract addresses, and chain-specific constants.
+- Use custom hooks (e.g., `useContractRead`, `useContractWrite`) for blockchain interactions.
+- Handle wallet connection errors gracefully with toast notifications.
+
+## Contract Interaction Rules
+- Wrap contract interactions in async functions with proper error handling and loading states.
+- Cache reads with `useQuery` (TanStack Query) if not using `wagmi`'s built-in caching.
+- Parse and format BigInt values (e.g., token balances) before displaying (use `formatUnits`, etc.).
+- Never expose private keys or sensitive config in the frontend.
+
+## UI/UX Guidelines
+- Use toast notifications (`shadcn` or `sonner`) for all user feedback (success, error, pending).
+- Loading spinners or skeletons should be shown during async operations.
+- Disable buttons while a transaction is pending to prevent duplicates.
+
+## File & Naming Conventions
+- Name hooks like `useXyz.ts` and components like `XyzCard.tsx` or `XyzModal.tsx`.
+- Group Web3 hooks under `/hooks/web3` or `/lib/web3`.
+- Store global context providers under `/context`.
+- Avoid magic strings or constants scattered in components; place them in `/lib/constants.ts`.
+
+## Testing & Quality
+- All smart contract interactions should be mockable in tests.
+- Include basic unit tests for custom logic using `vitest` or `jest`.
+- Run `eslint` and `prettier` on every save or via pre-commit hook.
+- Avoid `any` in TypeScript unless absolutely necessary.
+
+## Commit & Version Control
+- Use conventional commits (e.g., `feat:`, `fix:`, `refactor:`).
+- Don’t commit `.env` or any sensitive information.
+- Keep `README.md` up to date with Web3 and contract setup instructions.

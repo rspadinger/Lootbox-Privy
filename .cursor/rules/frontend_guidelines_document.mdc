@@ -1,0 +1,77 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 🎨 Frontend Guidelines Document for Web3 + Next.js + Tailwind + Wagmi + Shadcn + Ethers v6 + Privy + RainbowKit
+
+## 🚀 General Frontend Architecture
+
+- Use **Next.js App Router** (`app/`) for routing.
+- Keep each route’s components isolated in folders: `app/dashboard/page.tsx`, `app/dashboard/components/Widget.tsx`.
+- Organize shared UI in `components/ui/`, and project-specific components in `components/core/`.
+- Use `hooks/` for custom logic hooks (e.g., `useClaimedRewards.ts`).
+- Avoid global state unless necessary; prefer context or hook-local state.
+
+## 💅 Styling & Design System
+
+- Use **TailwindCSS** with sensible defaults. Customize theme in `tailwind.config.ts`.
+- Follow Shadcn UI system for components. Use `npx shadcn-ui@latest add button` etc.
+- Avoid over-customizing Shadcn components — extend via `className` props only when needed.
+- Maintain consistent padding, border-radius (`2xl`), and hover styles.
+
+## 🧩 Component Design Rules
+
+- All components should be:
+  - Typed with `React.FC<Props>` or inline props.
+  - Placed in dedicated files: `Component.tsx`, not mixed in `page.tsx`.
+  - Have well-defined responsibilities.
+- Component state logic should use `useState`, `useEffect`, `useCallback`, or custom hooks — avoid class components.
+- Use `props` for data and callbacks. Don’t import state directly from parent components.
+
+## 🧠 Web3 Integration (RainbowKit + Wagmi + Ethers v6)
+
+- Use **Wagmi v1.x** with **Viem** for core Web3 hooks.
+- Use **RainbowKit** for wallet UI and onboarding.
+- Prefer **Privy** for embedded wallets / social login flows.
+- Never use Web3.js or Ethers v5 — only **Ethers.js v6** for low-level utilities (if needed).
+- Fetch contracts using `getContract({ address, abi, client })` from Wagmi/Viem.
+- All contract ABIs must live in `constants/abis/`. Import them statically.
+
+### ✍️ Contract Interaction Rules
+
+- Read operations: use `useReadContract()` from Wagmi.
+- Write operations: use `useWriteContract()` and `.writeContract()` from Wagmi.
+- Prefer `viem`-based interaction via Wagmi — use `Ethers v6` only when strictly necessary (e.g., typed BigInt math, signature utilities).
+- Store all constants (e.g. addresses, chain IDs) in `constants/`.
+
+## 🛠️ Forms and Input Handling
+
+- Use Shadcn `Input`, `Select`, `Textarea`, etc.
+- Use controlled inputs with `useState` or `react-hook-form` if complex.
+- Validate inputs client-side before contract writes.
+
+## 📦 State & Wallet Context
+
+- Use Wagmi's `useAccount`, `useBalance`, `useNetwork`, `useSwitchNetwork` for all wallet and chain handling.
+- Don't manually access `window.ethereum` — use Wagmi or Privy hooks.
+- Use `@privy-io/react-auth` and `@privy-io/wagmi-connector` for unified auth + wallet UX.
+
+## 📄 File Naming & Conventions
+
+- Component files: `PascalCase.tsx`.
+- Hooks: `useCamelCase.ts`.
+- Utility functions: `camelCase.ts` in `lib/` or `utils/`.
+- Use `.tsx` for all components, even if currently JSX-only.
+
+## ✅ Testing and QA
+
+- Use Playwright or Cypress for frontend E2E testing.
+- Use Vitest or Jest for component/unit testing.
+- Use mocks for Wagmi hooks in tests — never test with real wallets.
+
+## 🧼 Code Quality
+
+- Prettier + ESLint required (Next.js default config preferred).
+- No `console.log()` in committed code unless explicitly marked with `@debug` comment.
+- Use `@typescript-eslint` rules for strict type safety.

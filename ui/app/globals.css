@@ -1,0 +1,228 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 191 71% 56%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    /* Custom colors */
+    --color-primary: #3cc0dd;
+    --color-secondary: #203152;
+}
+
+.dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 191 71% 56%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+}
+
+body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    min-height: 100vh;
+}
+
+/* Animation keyframes */
+@keyframes accordion-down {
+    from {
+        height: 0;
+    }
+    to {
+        height: var(--radix-accordion-content-height);
+    }
+}
+
+@keyframes accordion-up {
+    from {
+        height: var(--radix-accordion-content-height);
+    }
+    to {
+        height: 0;
+    }
+}
+
+.animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
+}
+
+/* Custom color classes */
+.bg-primary-custom {
+    background-color: var(--color-primary);
+}
+
+.text-primary-custom {
+    color: var(--color-primary);
+}
+
+.bg-secondary-custom {
+    background-color: var(--color-secondary);
+}
+
+.text-secondary-custom {
+    color: var(--color-secondary);
+}
+
+/* Bronze, Silver, Gold colors */
+.bronze-header {
+    background-color: #fff8e1;
+    color: #8b5a2b;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.dark .bronze-header {
+    background-color: #5d4037;
+    color: #ffb74d;
+}
+
+.silver-header {
+    background-color: #f5f5f5;
+    color: #5f6368;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.dark .silver-header {
+    background-color: #263238;
+    color: #b0bec5;
+}
+
+.gold-header {
+    background-color: #fff8e1;
+    color: #b7950b;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.dark .gold-header {
+    background-color: #3e2723;
+    color: #ffd54f;
+}
+
+/* Theme-aware backgrounds */
+.force-dark {
+    background-color: white;
+}
+
+.dark .force-dark {
+    background-color: #0f172a; /* slate-950 */
+}
+
+.card-dark {
+    background-color: white;
+    border-color: #e2e8f0; /* slate-200 */
+}
+
+.dark .card-dark {
+    background-color: #1e293b; /* slate-800 */
+    border-color: #1e293b; /* slate-800 */
+}
+
+.header-dark {
+    background-color: white;
+    border-bottom: 1px solid #e2e8f0; /* slate-200 */
+}
+
+.dark .header-dark {
+    background-color: #0f172a; /* slate-950 */
+    border-bottom: 1px solid #1e293b; /* slate-800 */
+}
+
+.footer-dark {
+    background-color: white;
+    border-top: 1px solid #e2e8f0; /* slate-200 */
+}
+
+.dark .footer-dark {
+    background-color: #0f172a; /* slate-950 */
+    border-top: 1px solid #1e293b; /* slate-800 */
+}
+
+/* Typography */
+h1.hero-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #0f172a; /* slate-900 */
+    margin-bottom: 0.75rem;
+}
+
+.dark h1.hero-title {
+    color: white;
+}
+
+p.hero-subtitle {
+    color: #475569; /* slate-600 */
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.dark p.hero-subtitle {
+    color: #94a3b8; /* slate-400 */
+}

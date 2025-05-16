@@ -1,0 +1,10 @@
+{
+    "name": "Elixir of Speed",
+    "description": "Doubles your movement for 30 seconds.",
+    "image": "https://gateway.pinata.cloud/ipfs/bafybeidvfgrsbbugnjl7fmwxdazez2y6u6nkx2dcaxznooztuhmdfc3szi",
+    "attributes": [
+        { "trait_type": "Speed Boost", "value": 2.0 },
+        { "trait_type": "Duration", "value": "30s" },
+        { "trait_type": "Rarity", "value": "Uncommon" }
+    ]
+}

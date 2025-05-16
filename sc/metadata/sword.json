@@ -1,0 +1,10 @@
+{
+    "name": "Flame Sword",
+    "description": "A blazing sword forged in dragon fire.",
+    "image": "https://gateway.pinata.cloud/ipfs/bafybeiad325aauxysu7cuxw5jualvpcvjii4qbngwgbv7645mqxtkdxo6y",
+    "attributes": [
+        { "trait_type": "Damage", "value": 45 },
+        { "trait_type": "Element", "value": "Fire" },
+        { "trait_type": "Rarity", "value": "Rare" }
+    ]
+}

@@ -1,0 +1,92 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 🔐 Security Guidelines
+
+## Use a Battle-Tested Auth Library  
+Don't build auth from scratch — it's fragile and risky. Use trusted libraries like Clerk to handle password hashing, sessions, MFA, etc.
+
+## Lock Down Protected Endpoints  
+Every server request must verify user identity. This blocks unauthorized access and helps prevent abuse or DDoS. Clerk's SDK makes this dead simple.
+
+## Never Expose Secrets on the Frontend  
+Your API keys, DB credentials, and tokens should NEVER touch client-side code. Store them in `.env` files — server only.
+
+## Git Ignore Sensitive Files  
+Add `.env` and any other secret-containing files to `.gitignore`. You don't want to leak secrets on GitHub by accident.
+
+## Sanitize Your Error Messages  
+Never expose raw backend errors to the client. They leak internal logic and give attackers clues. Log the details on the server, and only send friendly messages to users.
+
+## Use Middleware Auth Checks  
+Middleware = your app’s security gatekeeper. Only let valid, authenticated users through before hitting resources.
+
+## Add Role-Based Access Control (RBAC)  
+Not all users are equal. Use roles like `admin`, `user`, `guest` to restrict access to features and routes accordingly.
+
+## Use Secure DB Libraries or Platforms  
+Raw SQL queries = high risk of SQL injection. Use an ORM or a managed DB platform like Supabase, which supports Row-Level Security out of the box.
+
+## Host on a Secure Platform  
+Pick a platform that’s high-security: Vercel, AWS, Google Cloud. They offer DDoS protection, SSL encryption, and isolated environments.
+
+## Enable HTTPS Everywhere  
+Modern browsers require sites using SSL certificates. Never allow HTTP traffic in production. Browsers and users expect encrypted communication by default.
+
+## Limit File Upload Risks 
+If users can upload files, scan them for malware, validate file types, and restrict file sizes. Never trust file uploads blindly — it's a common attack vector.
+
+## 🚨 General Principles
+- Always treat user wallet data (address, balances, signatures) as sensitive.
+- Never store private keys, seed phrases, or sensitive tokens in the frontend.
+- Avoid relying solely on frontend logic for critical decisions — validate everything on-chain or server-side.
+
+## 📦 Dependency Safety
+- Use only **Ethers.js v6** (not v5 or Web3.js) and keep it up to date.
+- Prefer **Viem + Wagmi + RainbowKit** for wallet interactions — they handle many edge cases and security issues.
+- Lock your dependency versions and review package updates regularly.
+
+## 🪪 Wallet Integration (Privy, RainbowKit)
+- Never assume the wallet address is trustworthy — always verify with a signature.
+- Do not expose sensitive logic before wallet connection and verification.
+- For Privy in-app wallets, ensure secure authentication and session handling.
+
+## 💰 Token & Transaction Safety
+- Never rely on frontend validation for token approvals or staking logic — always validate on-chain.
+- Check the user’s balance before sending transactions, and display estimated gas cost clearly.
+- Avoid pre-filling token amounts or defaulting to max unless the user explicitly chooses it.
+
+## 🔗 Contract Interaction
+- Always use the ABI associated with the exact deployed contract version.
+- Use `estimateGas` before sending any transaction to catch reverts early.
+- Don’t hardcode contract addresses in multiple places — centralize them.
+
+## 👁️ UI/UX Trust Signals
+- Provide clear wallet connection status, and let the user know which network they're on.
+- Warn the user when switching networks or interacting with testnets.
+- Show success/failure toasts for every blockchain operation using ShadCN toasts.
+
+## 🧪 Testing and Monitoring
+- Test dApps with multiple wallets, accounts, and network conditions.
+- Use tools like Sentry or LogRocket to capture frontend issues (without leaking sensitive wallet data).
+- Simulate failed transactions and ensure the UI handles errors gracefully.
+
+## 🔐 Session & Local Storage
+- Never store access tokens, signatures, or wallet info in `localStorage`.
+- If using Privy, rely on its built-in session handling mechanisms.
+- Clean up wallet session data on disconnect.
+
+## 📜 CSP and HTTPS
+- Enforce strict Content Security Policy (CSP) headers.
+- Serve your app exclusively over HTTPS.
+
+## 🔄 Versioning & Change Control
+- Track ABI and contract changes closely — breaking frontend logic can cause transaction failures.
+- Inform users when breaking changes are introduced.
+
+## ✅ Recommended Audits & Reviews
+- Perform manual code reviews of sensitive logic (staking, withdrawals, token interactions).
+- Run automated linters and security scans on both the frontend and smart contract code.
+

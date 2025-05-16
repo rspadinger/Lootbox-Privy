@@ -1,0 +1,10 @@
+{
+    "name": "Aegis Shield",
+    "description": "A legendary shield that reflects all curses.",
+    "image": "https://gateway.pinata.cloud/ipfs/bafybeifpag2j2wrvv64h2nx3557gwbuothlk7ab77hbvtgah4ju6kunk3a",
+    "attributes": [
+        { "trait_type": "Defense", "value": 80 },
+        { "trait_type": "Reflect", "value": "Yes" },
+        { "trait_type": "Rarity", "value": "Epic" }
+    ]
+}

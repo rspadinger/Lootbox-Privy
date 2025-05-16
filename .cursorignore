@@ -1,0 +1,29 @@
+# Build and dependency folders
+node_modules/
+.next/
+dist/
+out/
+build/
+
+# Environment and config
+.env*
+*.local
+*.log
+
+# Tests (optional to ignore)
+__tests__/
+*.test.*
+*.spec.*
+
+# Cache and temp
+.vscode/
+.cache/
+coverage/
+.nyc_output/
+*.tsbuildinfo
+
+# Legacy or experimental code (customizable)
+legacy
+
+
+

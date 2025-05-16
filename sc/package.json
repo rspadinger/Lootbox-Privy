@@ -1,0 +1,20 @@
+{
+    "name": "LootBox",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "compile": "npx hardhat compile",
+        "postcompile": "mkdir -p ../UI/abi && cp artifacts/contracts/LootBox.sol/LootBox.json ../UI/abi/LootBox.json && cp artifacts/contracts/LootRedeemer.sol/LootRedeemer.json ../UI/abi/LootRedeemer.json && cp artifacts/contracts/LootToken.sol/LootToken.json ../UI/abi/LootToken.json && cp artifacts/contracts/RewardNFT.sol/RewardNFT.json ../UI/abi/RewardNFT.json && cp artifacts/contracts/XPModule.sol/XPModule.json ../UI/abi/XPModule.json",
+        "deploy": "hardhat run scripts/deployVerify.js"
+    },
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+        "hardhat": "^2.22.9",
+        "hardhat-gas-reporter": "^1.0.9"
+    },
+    "dependencies": {
+        "@chainlink/contracts": "^1.3.0",
+        "@openzeppelin/contracts": "^5.3.0",
+        "dotenv": "^16.3.1"
+    }
+}
