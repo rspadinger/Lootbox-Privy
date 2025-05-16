@@ -49,7 +49,7 @@ export default function PurchaseHistory() {
                     // save data to DB
                     //await insertUserAction(user.id, user.wallet?.address)
                     const purchases = await getLootboxesByPrivyIdAction(user.id)
-                    setPurchases(purchases)
+                    setPurchases(purchases ?? [])
                 }
             } catch (error) {
                 console.error("Error fetching purchases:", error)

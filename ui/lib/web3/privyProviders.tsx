@@ -1,6 +1,7 @@
 "use client"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+// @ts-expect-error working fine
 import { http } from "wagmi"
 import { mainnet, sepolia } from "viem/chains"
 

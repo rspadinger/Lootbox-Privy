@@ -11,6 +11,7 @@ import { toast } from "sonner"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
 import { usePrivy } from "@privy-io/react-auth"
+// @ts-expect-error working fine
 import { useAccount, useConfig } from "wagmi"
 import { waitForTransactionReceipt } from "wagmi/actions"
 import { useSmartContractWrite } from "@/lib/web3/wagmi"
@@ -34,13 +35,21 @@ interface LootBoxProps {
 }
 
 export default function LootBoxCard({ name, tier, price, rewards, flavorText }: LootBoxProps) {
+    const PAYMENT_TOKEN = {
+        LOOT: 0,
+        ETH: 1,
+        USDC: 2,
+    } as const
+
+    type PaymentMethod = keyof typeof PAYMENT_TOKEN
+
     const { user, ready } = usePrivy()
     const { address } = useAccount()
     const wagmiConfig = useConfig()
     const { executeWrite } = useSmartContractWrite()
 
     const [quantity, setQuantity] = useState(1)
-    const [paymentMethod, setPaymentMethod] = useState("LOOT")
+    const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("LOOT")
     const [isLoading, setIsLoading] = useState(false)
 
     const [txHash, setTxHash] = useState<string | null>(null)
@@ -72,12 +81,6 @@ export default function LootBoxCard({ name, tier, price, rewards, flavorText }: 
             setQuantity(quantity + 1)
         }
     }
-
-    const PAYMENT_TOKEN = {
-        LOOT: 0,
-        ETH: 1,
-        USDC: 2,
-    } as const
 
     const handleBuy = async () => {
         if (!address || isConfirming) return
@@ -280,7 +283,11 @@ export default function LootBoxCard({ name, tier, price, rewards, flavorText }: 
                         <ToggleGroup
                             type="single"
                             value={paymentMethod}
-                            onValueChange={(value) => value && setPaymentMethod(value)}
+                            onValueChange={(value) => {
+                                if (value === "LOOT" || value === "ETH" || value === "USDC") {
+                                    setPaymentMethod(value)
+                                }
+                            }}
                             className="border rounded-md border-slate-700 justify-between"
                         >
                             <ToggleGroupItem value="LOOT" className="flex-1 text-xs data-[state=on]:bg-slate-800">

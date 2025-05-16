@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
-type PaymentMethod = "USD" | "LOOT" | "ETH"
+type PaymentMethod = "USDC" | "LOOT" | "ETH"
 
 export function calculatePrice({
     basePriceUsd,

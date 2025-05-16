@@ -14,11 +14,27 @@ import { insertLootboxAction } from "@/app/actions/lootbox"
 import { insertUserAction, getUserIdAction } from "@/app/actions/user"
 
 export default function Home() {
+    type Reward = {
+        type: "XP" | "LOOT" | "NFT"
+        amount: string
+        chance: number
+    }
+
+    type LootBox = {
+        name: string
+        tier: Tier
+        price: number
+        flavorText: string
+        rewards: Reward[]
+    }
+
+    type Tier = "bronze" | "silver" | "gold"
+
     //****************** hooks //******************
     const { user, ready } = usePrivy()
 
     ////****************** state //******************
-    const [lootBoxes, setLootBoxes] = useState([])
+    const [lootBoxes, setLootBoxes] = useState<LootBox[]>([])
 
     ////****************** custom types //******************
     const FLAVOR_TEXTS: Record<string, string> = {
@@ -74,6 +90,10 @@ export default function Home() {
         const insertUser = async () => {
             if (ready && user) {
                 //console.log("Privy user:", user.id, user.wallet?.address)
+                if (!user.id || !user.wallet?.address) {
+                    console.error("Missing user ID or wallet address")
+                    return
+                }
 
                 // save data to DB
                 await insertUserAction(user.id, user.wallet?.address)
@@ -91,11 +111,13 @@ export default function Home() {
         const [names, prices, rewardTypes, rewardWeights, rewardValues] = getAllPacks
 
         //we need to transform the data for the UI component
-        const packs = names.map((name, i) => {
-            const tier = name.toLowerCase()
+        const packs = (names as string[]).map((name, i) => {
+            //const tier = name.toLowerCase() as Tier
+            const tier = name.toLowerCase() as Tier
 
-            const rewards = rewardTypes[i].map((typeId, j) => {
-                const type = REWARD_TYPE_MAP[Number(typeId)]
+            const rewards = (rewardTypes[i] as string[]).map((typeId, j) => {
+                //const type = REWARD_TYPE_MAP[Number(typeId)]
+                const type = REWARD_TYPE_MAP[Number(typeId) as keyof typeof REWARD_TYPE_MAP]
                 const rawValue = rewardValues[i][j]
                 const rawChance = Number(rewardWeights[i][j])
 

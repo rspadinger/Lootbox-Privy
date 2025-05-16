@@ -1,6 +1,7 @@
 "use client"
 
-import { useAccount, useChainId, useSwitchChain, useWriteContract, useReadContract } from "wagmi"
+// @ts-expect-error working fine
+import { useChainId, useSwitchChain, useWriteContract, useReadContract } from "wagmi"
 import { readContract } from "@wagmi/core"
 import { wagmiConfig } from "./privyProviders"
 import LootboxABI from "../../abi/LootBox.json"

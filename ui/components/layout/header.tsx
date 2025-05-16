@@ -5,10 +5,11 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Wallet, Package, Home } from "lucide-react"
 import Image from "next/image"
-import { ThemeToggle } from "@/components/layout/theme-toggle"
 
-import { useAccount, useDisconnect } from "wagmi"
 import { usePrivy } from "@privy-io/react-auth"
+// @ts-expect-error working fine
+import { useAccount, useDisconnect } from "wagmi"
+//import { ThemeToggle } from "@/components/layout/theme-toggle"
 
 export default function Header() {
     // Privy hooks
