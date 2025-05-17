@@ -85,7 +85,7 @@ export const useSmartContractWrite = () => {
         contract: ContractType
         functionName: string
         args?: readonly unknown[]
-        value?: number
+        value?: bigint
     }): Promise<{ result: any; status: string }> => {
         if (chainId !== TARGET_CHAIN_ID) {
             try {
