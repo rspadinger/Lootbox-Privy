@@ -5,13 +5,17 @@ import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import UserBalance from "@/components/lootbox/user-balance"
 import LootBoxCard from "@/components/lootbox/loot-box-card"
-import { useSmartContractRead } from "../lib/web3/wagmi"
+import { useSmartContractRead } from "../lib/web3/wagmiHelper"
 import { formatEther, formatUnits } from "viem"
 
 import { usePrivy } from "@privy-io/react-auth"
+// @ts-expect-error working fine
+import { useAccount, useBalance } from "wagmi"
+import { insertUserAction } from "@/app/actions/user"
 
-import { insertLootboxAction } from "@/app/actions/lootbox"
-import { insertUserAction, getUserIdAction } from "@/app/actions/user"
+// import { useSendTransaction } from "wagmi"
+// import type { SendTransactionVariables } from "wagmi/query"
+// import { parseEther } from "viem"
 
 export default function Home() {
     type Reward = {
@@ -32,6 +36,8 @@ export default function Home() {
 
     //****************** hooks //******************
     const { user, ready } = usePrivy()
+    const { address } = useAccount()
+    const { data: ethBalance, isLoading: loadingEthBalance } = useBalance({ address })
 
     ////****************** state //******************
     const [lootBoxes, setLootBoxes] = useState<LootBox[]>([])
@@ -48,6 +54,14 @@ export default function Home() {
         1: "LOOT",
         2: "NFT",
     } as const
+
+    //TEST Send TXN => for mainnet testing => seems like smart wallets work only on mainnet
+    // const { data, isPending, isSuccess, sendTransaction } = useSendTransaction()
+    // const transactionRequest: SendTransactionVariables<Config, number> = {
+    //     to: "0x346..." as `0x${string}`,
+    //     value: parseEther("0.001"),
+    //     type: "eip1559",
+    // }
 
     //****************** smart contract hooks //******************
 
@@ -159,7 +173,6 @@ export default function Home() {
     useEffect(() => {
         const interval = setInterval(() => {
             if (ready && user) {
-                console.log("aaaaaaaaaaaaaa")
                 refetchLootBalance()
                 refetchXPBalance()
                 refetchPGetAllPacks()
@@ -197,6 +210,9 @@ export default function Home() {
                         Rewards are determined randomly using Chainlink VRF—no two boxes are alike.
                     </p>
                     {/* DELETE - only for testing */}
+                    {/* <Button onClick={myFunc} className="bg-cyan-500 hover:bg-cyan-600 text-white mt-5">
+                        Test
+                    </Button> */}
                     {/* {false && (
                         <>
                              <p>*** TEST *** Wallet address: {address}</p>
@@ -238,6 +254,7 @@ export default function Home() {
                 <UserBalance
                     xpBalance={xpBalance ?? 0}
                     lootBalance={lootBalance ? parseFloat(formatEther(lootBalance)) : 0}
+                    ethBalance={loadingEthBalance || !ethBalance?.value ? 0 : parseFloat(formatEther(ethBalance.value))}
                 />
             </div>
 

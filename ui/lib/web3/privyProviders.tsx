@@ -1,8 +1,8 @@
 "use client"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-// @ts-expect-error working fine
-import { http } from "wagmi"
+//import { http } from "wagmi"
+import { http } from "viem"
 import { mainnet, sepolia } from "viem/chains"
 
 import type { PrivyClientConfig } from "@privy-io/react-auth"
@@ -32,6 +32,7 @@ export const privyConfig: PrivyClientConfig = {
     },
 }
 
+//config={`${privyConfig}`}
 export default function PrivyProviders({ children }: { children: React.ReactNode }) {
     return (
         <PrivyProvider

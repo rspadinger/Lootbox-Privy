@@ -2,6 +2,8 @@
 
 The **Lootbox dApp** is a Web3-enabled application that allows users to purchase loot packs and receive random rewards including XP, LOOT tokens, and NFTs. The app is built with **Privy** for seamless Web2+Web3 authentication, a **Supabase** backend for tracking user activity, and a powerful **Solidity smart contract** for loot mechanics and reward distribution.
 
+[Check out the deployed site](https://lootbox-ashen.vercel.app/)
+
 ---
 
 ## 🚀 Features

@@ -14,7 +14,7 @@ import { usePrivy } from "@privy-io/react-auth"
 // @ts-expect-error working fine
 import { useAccount, useConfig } from "wagmi"
 import { waitForTransactionReceipt } from "wagmi/actions"
-import { useSmartContractWrite } from "@/lib/web3/wagmi"
+import { useSmartContractWrite } from "@/lib/web3/wagmiHelper"
 import { useEthPrice } from "@/lib/hooks/useEthUsdPrice"
 import { insertLootboxAction } from "@/app/actions/lootbox"
 import { insertUserAction, getUserIdAction } from "@/app/actions/user"

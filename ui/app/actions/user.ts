@@ -1,4 +1,3 @@
-// app/actions/user.ts
 "use server"
 
 import { getUserByPrivyId, insertUser, getAllUsers } from "@/lib/supabase/actions"

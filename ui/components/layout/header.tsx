@@ -8,7 +8,7 @@ import Image from "next/image"
 
 import { usePrivy } from "@privy-io/react-auth"
 // @ts-expect-error working fine
-import { useAccount, useDisconnect } from "wagmi"
+import { useAccount, useDisconnect, useBalance } from "wagmi"
 //import { ThemeToggle } from "@/components/layout/theme-toggle"
 
 export default function Header() {
@@ -35,6 +35,12 @@ export default function Header() {
                     </div>
                     {/* <span className="text-xl font-bold text-white">LootBox</span> */}
                 </Link>
+
+                {/* {data && (
+                    <p>
+                        Balance: {data?.formatted} {data?.symbol}
+                    </p>
+                )} */}
 
                 <nav className="hidden md:flex space-x-6 mx-4">
                     <Link href="/" className="text-white hover:text-cyan-400 transition-colors">
