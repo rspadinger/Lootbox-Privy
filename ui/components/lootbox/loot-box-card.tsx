@@ -14,10 +14,11 @@ import { usePrivy } from "@privy-io/react-auth"
 // @ts-expect-error working fine
 import { useAccount, useConfig } from "wagmi"
 import { waitForTransactionReceipt } from "wagmi/actions"
+import { parseEther } from "viem"
 import { useSmartContractWrite } from "@/lib/web3/wagmiHelper"
 import { useEthPrice } from "@/lib/hooks/useEthUsdPrice"
 import { insertLootboxAction } from "@/app/actions/lootbox"
-import { insertUserAction, getUserIdAction } from "@/app/actions/user"
+import { getUserIdAction } from "@/app/actions/user"
 import { calculatePrice } from "@/lib/utils"
 
 interface Reward {
@@ -37,8 +38,8 @@ interface LootBoxProps {
 export default function LootBoxCard({ name, tier, price, rewards, flavorText }: LootBoxProps) {
     const PAYMENT_TOKEN = {
         LOOT: 0,
-        ETH: 1,
-        USDC: 2,
+        USDC: 1,
+        ETH: 2,
     } as const
 
     type PaymentMethod = keyof typeof PAYMENT_TOKEN
@@ -85,14 +86,26 @@ export default function LootBoxCard({ name, tier, price, rewards, flavorText }: 
     const handleBuy = async () => {
         if (!address || isConfirming) return
 
+        //if ETH is used as payment token, we also need to send ETH => add a contract function to get the exact purchase prize
+        let value: bigint = 0n
+        if (paymentMethod == "ETH") {
+            //to be save, we add 1%
+            value = parseEther((discountedPrice * 1.01).toString())
+        }
+
         //call SC to buy lootbox
         const { result: hash, status } = await executeWrite({
             contract: "lootBox",
             functionName: "purchasePack",
             args: [name.slice(0, -4), quantity, PAYMENT_TOKEN[paymentMethod]],
+            value,
         })
 
         if (!hash) {
+            if (status && status.includes("User denied the transaction.")) {
+                return
+            }
+
             toast.error(status || "Transaction failed")
             return
         }

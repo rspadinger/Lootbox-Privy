@@ -4,9 +4,11 @@
 import { useChainId, useSwitchChain, useWriteContract, useReadContract } from "wagmi"
 import { readContract } from "@wagmi/core"
 import { wagmiConfig } from "./privyProviders"
-import LootboxABI from "../../abi/LootBox.json"
-import LootTokenABI from "../../abi/LootToken.json"
-import XPModuleABI from "../../abi/XPModule.json"
+import LootboxABI from "@/abi/LootBox.json"
+import LootTokenABI from "@/abi/LootToken.json"
+import XPModuleABI from "@/abi/XPModule.json"
+
+import { parseEther } from "viem"
 
 const LOOTBOX_ADDRESS = process.env.NEXT_PUBLIC_LOOTBOX_ADDRESS as `0x${string}`
 const LOOT_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_LOOT_TOKEN_ADDRESS as `0x${string}`
@@ -78,10 +80,12 @@ export const useSmartContractWrite = () => {
         contract,
         functionName,
         args = [],
+        value,
     }: {
         contract: ContractType
         functionName: string
         args?: readonly unknown[]
+        value?: number
     }): Promise<{ result: any; status: string }> => {
         if (chainId !== TARGET_CHAIN_ID) {
             try {
@@ -100,10 +104,18 @@ export const useSmartContractWrite = () => {
                 abi: getContractABI(contract),
                 functionName,
                 args,
+                value: value ?? 0n,
             })
 
             return { result, status: "" }
         } catch (err: any) {
+            if (err.message && err.message.includes("User denied transaction signature")) {
+                return {
+                    result: null,
+                    status: "User denied the transaction.",
+                }
+            }
+
             return {
                 result: null,
                 status: err.message || "An unknown error occurred during write",
